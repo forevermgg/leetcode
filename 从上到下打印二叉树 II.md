@@ -5,37 +5,38 @@
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> result;
         if (root == nullptr) {
-            return 0;
+           return result;
         }
-        // 层序遍历
-        int result = 0;
-        queue<TreeNode*> current;
-        current.push(root);
+        
+        queue<TreeNode*> que;
+        que.push(root);
 
-        while(!current.empty()) {
-            int size  = current.size();
-            while(size> 0) {
-                TreeNode* node  = current.front();
-                current.pop();
-                if (node->left) {
-                    current.push(node->left);
+        while(!que.empty()) {
+            int size = que.size();
+            vector<int> sub;
+            while(size>0) {
+                TreeNode* node = que.front();
+                que.pop();
+                sub.push_back(node->val);
+                if(node->left) {
+                    que.push(node->left);
                 }
-                if (node->right) {
-                    current.push(node->right);
+                if(node->right) {
+                    que.push(node->right);
                 }
-                size = size -1;
+                size --;
             }
-            result = result + 1;
+            result.push_back(sub);
         }
+
         return result;
     }
 };
